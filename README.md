@@ -94,6 +94,22 @@ scp -r root@172.17.0.C:/etc/kubeedge/certs /etc/kubeedge/
 scp -r root@172.17.0.C:/etc/kubeedge/ca /etc/kubeedge/
 ```
 
+3. 将/etc/docker/daemon.json中的对应参数修改为cgroupfs
+
+```shell
+cat /etc/docker/daemon.json
+{
+  "exec-opts": ["native.cgroupdriver=cgroupfs"],
+  "registry-mirrors": ["http://hub-mirror.c.163.com"]
+}
+```
+
+重启docker
+
+```shell
+systemctl restart docker
+```
+
 3. 加入Kubeedeg集群
 
 ```shell
