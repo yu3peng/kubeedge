@@ -127,17 +127,26 @@ KubeEdge edgecore is running, For logs visit:  /var/log/kubeedge/edgecore.log
 tail -f /var/log/kubeedge/edgecore.log
 ```
 
+查看网络地址
+
+```shell
+ifconfig
+```
+
+输出设备网络信息, 此时记录 *ens3* 对应的 IPv4 地址, 分别为 172.17.0.E（Kubeedge Edge）
+
 3. 退出 node01，查看 KubeEdge 集群节点状态
 
 ```shell
 kubectl get nodes
 ```
 
-
-
-
-
-
+输出
+```shell
+NAME           STATUS   ROLES    AGE    VERSION
+controlplane   Ready    master   140m   v1.14.0
+test1          Ready    edge     57s    v1.17.1-kubeedge-v1.2.1
+```
 
 
 
