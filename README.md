@@ -19,13 +19,13 @@ ifconfig
 
 2. root用户操作
 
-因为Kubernetes和Kubeedge都需要root权限, 因此以后尽量用root用户操作.
+因为Kubernetes和Kubeedge都需要root权限, 因此以后尽addr: ::1/128 Sco量用root用户操作.
 
 ```shell
 sudo vim /etc/ssh/sshd_config
 ```
 
-将 *PermitRootLogin ???* 改为 *PermitRootLogin yes*
+将 *PermitRootLogin prohibit-password* 改为 *PermitRootLogin yes*
 
 ### 3. 安装 Kubeedge Cloud
 
