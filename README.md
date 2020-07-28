@@ -1,116 +1,44 @@
 ### 1. 登录免费 Kubernetes 资源
 
-打开两个web页面，分别登录以下网址
-https://www.katacoda.com/courses/ubuntu/playground
+登录以下网址
+https://www.katacoda.com/courses/kubernetes/guestbook
 
 认证后，点击 ***START SCENARIO*** 按钮
 
-一个 Ubuntu 环境作为 Kubeedge Cloud，另外一个 Ubuntu 环境作为 Kubeedge Edge
-
 ### 2. 检查
 
-1. 查看网络地址
+查看网络地址
 
 ```shell
 ifconfig
 ```
 
-输出设备网络信息, 此时记录 *ens3* 对应的 IPv4 地址, 分别为 172.17.0.C（Kubeedge Cloud）、172.17.0.E（Kubeedge Edge），待用
-
-2. 更新并升级软件源, 安装必要工具
-
-```shell
-sudo apt-get update 
-sudo apt-get upgrade
-sudo apt-get install net-tools make vim openssh-server docker.io
-```
-
-3. root用户操作
-
-因为Kubernetes和Kubeedge都需要root权限, 因此以后尽addr: ::1/128 Sco量用root用户操作.
-
-```shell
-sudo vim /etc/ssh/sshd_config
-```
-
-将 *PermitRootLogin prohibit-password* 改为 *PermitRootLogin yes*
+输出设备网络信息, 此时记录 *ens3* 对应的 IPv4 地址, 分别为 172.17.0.C（Kubeedge Cloud）
 
 ### 3. 安装 Kubeedge Cloud
 
 在 172.17.0.C（Kubeedge Cloud）上
 
-1. 安装snap包管理, 通过snap安装kubernetes三件套
-
-```shell
-sudo apt-get install snap
-sudo snap install kubectl --classic
-sudo snap install kubelet --classic
-sudo snap install kubeadm --classic
-```
-
-2. 下载Kubeedge源码
+1. 下载Kubeedge源码
 
 ```shell
 git clone https://github.com/kubeedge/kubeedge $GOPATH/src/github.com/kubeedge/kubeedge
 ```
 
-3. 编译Keadm
+2. 编译Keadm
 
 ```shell
 cd $GOPATH/src/github.com/kubeedge/kubeedge
 make all WHAT=keadm
 ```
 
-4. 安装keadm
+3. 安装keadm
 
 ```shell
 sudo cp ./_output/local/bin/keadm /usr/bin/
 ```
 
-5. 下载kind, 部署kubernetes集群
-
-```shell
-cd /root/
-GO111MODULE="on" go get sigs.k8s.io/kind@v0.7.0
-kind version
-```
-
-手动下载kindest镜像
-```shell
-docker pull kindest/node:v1.17.2
-```
-
-创建kind配置文件
-```shell
-sudo tee /root/kind.yaml <<-'EOF'
-kind: Cluster
-apiVersion: kind.x-k8s.io/v1alpha4
-networking:
-  apiServerAddress: "127.0.0.1"
-  apiServerPort: 6443
-nodes:
-  - role: control-plane
-    image: kindest/node:v1.17.2
-EOF
-```
-
-创建集群
-```shell
-kind create cluster --config=/root/kind.yaml
-```
-
-检查结果
-```shell
-kubectl get nodes
-```
-
-输出
-```shell
-NAME                 STATUS     ROLES    AGE   VERSION
-kind-control-plane   Ready      master   12s   v1.17.2
-```
-
-6. 创建kubeedge cloud节点
+4. 创建kubeedge cloud节点
 
 ```shell
 keadm init --kubeedge-version=1.2.1  --kube-config=/root/.kube/config
@@ -130,11 +58,30 @@ CloudCore started
 tail -f /var/log/kubeedge/cloudcore.log
 ```
 
+5. 删除节点
+```shell
+kubectl delete node node01
+```
+
+
 ### 3. 安装 Kubeedge Edge
 
-在 172.17.0.E（Kubeedge Edge）上
+1. 登录到 node01 节点，停止 kubelet 进程
 
-1. 拷贝 keadm 
+```shell
+ssh node01
+rm /usr/bin/kubelet
+```
+
+```shell
+ps -aux | grep kubelet
+```
+获得进程号之后
+```shell
+kill -9 进程号
+```
+
+2. 拷贝 keadm 
 
 ```shell
 scp root@172.17.0.C:/usr/bin/keadm /usr/bin/
@@ -165,6 +112,11 @@ KubeEdge edgecore is running, For logs visit:  /var/log/kubeedge/edgecore.log
 tail -f /var/log/kubeedge/edgecore.log
 ```
 
+3. 退出 node01，查看 KubeEdge 集群节点状态
+
+```shell
+kubectl get nodes
+```
 
 
 
