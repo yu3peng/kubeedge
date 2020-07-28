@@ -113,8 +113,7 @@ systemctl restart docker
 3. 加入Kubeedeg集群
 
 ```shell
-su #切换root用户
-keadm join --cloudcore-ipport=192.168.0.C:10000 --edgenode-name=test1 --kubeedge-version=1.2.1
+keadm join --cloudcore-ipport=172.17.0.C:10000 --edgenode-name=test1 --kubeedge-version=1.2.1
 ```
 
 输出
