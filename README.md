@@ -65,7 +65,7 @@ sudo cp ./_output/local/bin/keadm /usr/bin/
 cd /root/
 GO111MODULE="on" go get sigs.k8s.io/kind@v0.7.0
 kind version
-```shell
+```
 
 手动下载kindest镜像
 ```shell
