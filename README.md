@@ -17,7 +17,15 @@ ifconfig
 
 输出设备网络信息, 此时记录 *ens3* 对应的 IPv4 地址, 分别为 172.17.0.C（Kubeedge Cloud）、172.17.0.E（Kubeedge Edge），待用
 
-2. root用户操作
+2. 更新并升级软件源, 安装必要工具
+
+```shell
+sudo apt-get update 
+sudo apt-get upgrade
+sudo apt-get install net-tools make vim openssh-server docker.io
+```
+
+3. root用户操作
 
 因为Kubernetes和Kubeedge都需要root权限, 因此以后尽addr: ::1/128 Sco量用root用户操作.
 
