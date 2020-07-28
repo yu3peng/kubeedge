@@ -63,7 +63,6 @@ tail -f /var/log/kubeedge/cloudcore.log
 kubectl delete node node01
 ```
 
-
 ### 3. 安装 Kubeedge Edge
 
 1. 登录到 node01 节点，停止 kubelet 进程
@@ -90,6 +89,7 @@ scp root@172.17.0.C:/usr/bin/keadm /usr/bin/
 2. 拷贝密钥到Edge
 
 ```shell
+mkdir -p /etc/kubeedge/
 scp -r root@172.17.0.C:/etc/kubeedge/certs /etc/kubeedge/
 scp -r root@172.17.0.C:/etc/kubeedge/ca /etc/kubeedge/
 ```
