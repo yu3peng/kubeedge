@@ -63,7 +63,7 @@ tail -f /var/log/kubeedge/cloudcore.log
 kubectl delete node node01
 ```
 
-### 3. 安装 Kubeedge Edge
+### 4. 安装 Kubeedge Edge
 
 1. 登录到 node01 节点，停止 kubelet 进程
 
@@ -148,5 +148,130 @@ controlplane   Ready    master   140m   v1.14.0
 test1          Ready    edge     57s    v1.17.1-kubeedge-v1.2.1
 ```
 
+### 5. Cloud 部署kubeedge-web-app
 
+```shell
+git clone https://github.com/kubeedge/examples $GOPATH/src/github.com/kubeedge/examples
+cd $GOPATH/src/github.com/kubeedge/examples
+
+# 修改kubeedge-speaker-instance.yaml文件
+rm kubeedge-web-demo/kubeedge-web-app/deployments/kubeedge-speaker-instance.yaml
+sudo tee kubeedge-web-demo/kubeedge-web-app/deployments/kubeedge-speaker-instance.yaml <<-'EOF'
+apiVersion: devices.kubeedge.io/v1alpha1
+kind: Device
+metadata:
+  name: speaker-01
+  labels:
+    description: 'Speaker'
+    manufacturer: 'test'
+spec:
+  deviceModelRef:
+    name: speaker-model
+  nodeSelector:
+    nodeSelectorTerms:
+    - matchExpressions:
+      - key: ''
+        operator: In
+        values:
+        - test1
+EOF
+
+# 修改kubeedge-web-app.yaml文件
+rm kubeedge-web-demo/kubeedge-web-app/deployments/kubeedge-web-app.yaml
+sudo tee kubeedge-web-demo/kubeedge-web-app/deployments/kubeedge-web-app.yaml <<-'EOF'
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    k8s-app: kubeedge-web-app
+  name: kubeedge-web-app
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      k8s-app: kubeedge-web-app
+  template:
+    metadata:
+      labels:
+        k8s-app: kubeedge-web-app
+    spec:
+      nodeSelector:
+        node-role.kubernetes.io/master: ""
+      hostNetwork: true
+      containers:
+      - name: kubeedge-web-app
+        image: yu3peng/kubeedge-web-app:v2.7
+        imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+EOF
+
+# 创建资源文件
+sudo tee /root/fabric8-rbac.yaml <<-'EOF'
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: fabric8-rbac
+subjects:
+  - kind: ServiceAccount
+    # Reference to upper's `metadata.name`
+    name: default
+    # Reference to upper's `metadata.namespace`
+    namespace: default
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
+EOF
+
+# 部署资源文件
+kubectl create -f /root/fabric8-rbac.yaml
+
+# 部署
+cd $GOPATH/src/github.com/kubeedge/examples
+cd kubeedge-web-demo/kubeedge-web-app/deployments
+kubectl create -f kubeedge-speaker-model.yaml
+kubectl create -f kubeedge-speaker-instance.yaml
+kubectl create -f kubeedge-web-app.yaml
+```
+
+### 6. 检查集群运行状态
+
+```shell
+$ kubectl get nodes
+
+
+
+
+
+$ kubectl get crds
+
+
+
+$ kubectl get deployments
+
+
+
+
+
+$ kubectl get pods
+
+
+
+$ kubectl describe pod kubeedge-web-app-xxxxxxx | grep IP
+
+
+
+
+
+
+```
+
+在Cloud上访问上一步得到的IP, 可以看到如下网页, 网页不用关:
+
+
+
+
+
+### 参考资料
+1. [Kubeedge安装,配置,HelloWorld](https://github.com/JingruiLea/blogs/blob/master/%E5%AE%89%E8%A3%85kubeedge.md)
 
