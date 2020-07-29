@@ -41,13 +41,13 @@ sudo cp ./_output/local/bin/keadm /usr/bin/
 4. 创建kubeedge cloud节点
 
 ```shell
-keadm init --kubeedge-version=1.2.1  --kube-config=/root/.kube/config
+keadm init --kubeedge-version=1.3.1  --kube-config=/root/.kube/config
 ```
 
 输出
 ```shell
 Kubernetes version verification passed, KubeEdge installation will start...
-Expected or Default KubeEdge version 1.2.1 is already downloaded
+Expected or Default KubeEdge version 1.3.1 is already downloaded
 ...
 KubeEdge cloudcore is running, For logs visit:  /var/log/kubeedge/cloudcore.log
 CloudCore started
@@ -113,7 +113,7 @@ systemctl restart docker
 3. 加入Kubeedeg集群
 
 ```shell
-keadm join --cloudcore-ipport=172.17.0.C:10000 --edgenode-name=test1 --kubeedge-version=1.2.1
+keadm join --cloudcore-ipport=172.17.0.C:10000 --edgenode-name=test1 --kubeedge-version=1.3.1
 ```
 
 输出
@@ -145,7 +145,7 @@ kubectl get nodes
 ```shell
 NAME           STATUS   ROLES    AGE    VERSION
 controlplane   Ready    master   140m   v1.14.0
-test1          Ready    edge     57s    v1.17.1-kubeedge-v1.2.1
+test1          Ready    edge     57s    v1.17.1-kubeedge-v1.3.1
 ```
 
 ### 5. Cloud 部署kubeedge-web-app
@@ -154,10 +154,28 @@ test1          Ready    edge     57s    v1.17.1-kubeedge-v1.2.1
 git clone https://github.com/kubeedge/examples $GOPATH/src/github.com/kubeedge/examples
 cd $GOPATH/src/github.com/kubeedge/examples
 
+# 修改kubeedge-speaker-model.yaml文件
+rm kubeedge-web-demo/kubeedge-web-app/deployments/kubeedge-speaker-model.yaml
+sudo tee kubeedge-web-demo/kubeedge-web-app/deployments/kubeedge-speaker-model.yaml <<-'EOF'
+apiVersion: devices.kubeedge.io/v1alpha2
+kind: DeviceModel
+metadata:
+ name: speaker-model
+ namespace: default
+spec:
+ properties:
+  - name: track
+    description: music track to play
+    type:
+     string:
+      accessMode: ReadWrite
+      defaultValue: ''
+EOF
+
 # 修改kubeedge-speaker-instance.yaml文件
 rm kubeedge-web-demo/kubeedge-web-app/deployments/kubeedge-speaker-instance.yaml
 sudo tee kubeedge-web-demo/kubeedge-web-app/deployments/kubeedge-speaker-instance.yaml <<-'EOF'
-apiVersion: devices.kubeedge.io/v1alpha1
+apiVersion: devices.kubeedge.io/v1alpha2
 kind: Device
 metadata:
   name: speaker-01
@@ -207,7 +225,7 @@ EOF
 
 # 创建资源文件
 sudo tee /root/fabric8-rbac.yaml <<-'EOF'
-apiVersion: rbac.authorization.k8s.io/v1beta1
+apiVersion: rbac.authorization.k8s.io/v1alpha2
 kind: ClusterRoleBinding
 metadata:
   name: fabric8-rbac
