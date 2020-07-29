@@ -225,7 +225,7 @@ EOF
 
 # 创建资源文件
 sudo tee /root/fabric8-rbac.yaml <<-'EOF'
-apiVersion: rbac.authorization.k8s.io/v1alpha2
+apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
   name: fabric8-rbac
