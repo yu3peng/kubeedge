@@ -1,14 +1,12 @@
-MacOS(主机) -- Kubeedge Cloud
+| Kubeedge Cloud
 
-            | -- Ubuntu18.04 IP:172.17.0.C 
+| -- Ubuntu18.04 IP:172.17.0.C 
+	    	    
+| -- kubeedge-web-app:v2.7
 	    
-            | -- kindest/node:v1.17.2 
-	    
-            | -- kubeedge-web-app:v2.7
-	    
-           -- Kubeedge Edge
+-- Kubeedge Edge
 	   
-            | -- Ubuntu18.04 IP: 172.17.0.E 
+| -- Ubuntu18.04 IP: 172.17.0.E 
 
 ### 1. 登录免费 Kubernetes 资源
 
@@ -40,7 +38,7 @@ git clone https://github.com/kubeedge/kubeedge $GOPATH/src/github.com/kubeedge/k
 2. 编译Keadm
 
 ```shell
-cd $GOPATH/src/github.com/kubeedge/kubeedge-1.2.1
+cd $GOPATH/src/github.com/kubeedge/kubeedge
 make all WHAT=keadm
 ```
 
