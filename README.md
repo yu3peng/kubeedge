@@ -40,7 +40,7 @@ git clone https://github.com/kubeedge/kubeedge $GOPATH/src/github.com/kubeedge/k
 2. 编译Keadm
 
 ```shell
-cd $GOPATH/src/github.com/kubeedge/kubeedge
+cd $GOPATH/src/github.com/kubeedge/kubeedge-1.2.1
 make all WHAT=keadm
 ```
 
