@@ -361,7 +361,7 @@ func main() {
 	}
 }
 EOF
-
+git clone https://github.com/kubeedge/kubeedge $GOPATH/src/github.com/kubeedge/kubeedge
 go get github.com/yosssi/gmq/mqtt/client
 go get github.com/yosssi/gmq/mqtt
 go run /root/main.go
