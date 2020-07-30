@@ -159,9 +159,9 @@ kubectl get nodes
 
 输出
 ```shell
-NAME           STATUS   ROLES    AGE    VERSION
-controlplane   Ready    master   140m   v1.14.0
-node01         Ready    edge     57s    v1.17.1-kubeedge-v1.3.1
+NAME           STATUS   ROLES        AGE   VERSION
+controlplane   Ready    master       72m   v1.14.0
+node01         Ready    agent,edge   18s   v1.17.1-kubeedge-v1.3.1
 ```
 
 ### 5. Cloud 部署kubeedge-web-app
