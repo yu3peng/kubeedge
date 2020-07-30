@@ -304,7 +304,10 @@ kubeedge-web-app-5ccb4ddf7f-5vfbf   1/1     Running   0          30m
 ```shell
 ssh node01
 cd /root/
-sudo tee /root/main.go <<-'EOF'
+vi /root/main.go
+```
+
+```go
 package main
 
 import (
@@ -346,7 +349,6 @@ func main() {
 		SubReqs: []*client.SubReq{
 			{
 				TopicFilter: []byte(`$hw/events/device/speaker-01/twin/update/document`),
-				fmt.Printf("Unmarshal error: %v\n", err)
 				QoS:         mqtt.QoS0,
 				// Define the processing of the message handler.
 				Handler: func(topicName, message []byte) {
@@ -370,7 +372,7 @@ func main() {
 		fmt.Println("Connection successfully")
 	}
 }
-EOF
+```
 
 git clone https://github.com/kubeedge/kubeedge $GOPATH/src/github.com/kubeedge/kubeedge
 go get github.com/yosssi/gmq/mqtt/client
