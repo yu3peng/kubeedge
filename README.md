@@ -337,6 +337,7 @@ func main() {
 		SubReqs: []*client.SubReq{
 			{
 				TopicFilter: []byte(`$hw/events/device/speaker-01/twin/update/document`),
+				fmt.Printf("Unmarshal error: %v\n", err)
 				QoS:         mqtt.QoS0,
 				// Define the processing of the message handler.
 				Handler: func(topicName, message []byte) {
