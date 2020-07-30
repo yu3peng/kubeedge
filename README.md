@@ -65,6 +65,12 @@ CloudCore started
 tail -f /var/log/kubeedge/cloudcore.log
 ```
 
+记录token
+```shell
+keadm gettoken
+b603ecab6707991922dca354116c0b440fbf26eead9fbb919665f7769fa7be67.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTYxNzY5ODZ9.zw3vNXGATeFYP0ErBITbHnNNFw6vpZO0N8h
+```
+
 5. 删除节点
 ```shell
 kubectl delete node node01
@@ -93,14 +99,6 @@ kill -9 进程号
 scp root@172.17.0.C:/usr/bin/keadm /usr/bin/
 ```
 
-2. 拷贝密钥到Edge
-
-```shell
-mkdir -p /etc/kubeedge/
-scp -r root@172.17.0.C:/etc/kubeedge/certs /etc/kubeedge/
-scp -r root@172.17.0.C:/etc/kubeedge/ca /etc/kubeedge/
-```
-
 3. 将/etc/docker/daemon.json中的对应参数修改为cgroupfs
 
 ```shell
@@ -117,10 +115,18 @@ vi /etc/docker/daemon.json
 systemctl restart docker
 ```
 
-3. 加入Kubeedeg集群
+4. 加入Kubeedeg集群
 
+在kubeedge v1.2.1版本中，采用的是证书，需要从cloud拷贝到edge
 ```shell
-keadm join --cloudcore-ipport=172.17.0.C:10000 --edgenode-name=node01 --kubeedge-version=1.3.1
+mkdir -p /etc/kubeedge/
+scp -r root@172.17.0.C:/etc/kubeedge/certs /etc/kubeedge/
+scp -r root@172.17.0.C:/etc/kubeedge/ca /etc/kubeedge/
+```
+
+在kubeedge v1.3.1版本中，采用的是token，
+```shell
+keadm join --cloudcore-ipport=172.17.0.C:10000 --edgenode-name=node01 --kubeedge-version=1.3.1 -token=b603ecab6707991922dca354116c0b440fbf26eead9fbb919665f7769fa7be67.eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTYxNzY5ODZ9.zw3vNXGATeFYP0ErBITbHnNNFw6vpZO0N8h
 ```
 
 输出
