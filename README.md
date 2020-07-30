@@ -1,4 +1,4 @@
-| Kubeedge Cloud
+-- Kubeedge Cloud
 
 | -- Ubuntu18.04 IP:172.17.0.C 
 	    	    
