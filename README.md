@@ -48,13 +48,13 @@ sudo cp ./_output/local/bin/keadm /usr/bin/
 4. 创建kubeedge cloud节点
 
 ```shell
-keadm init --kubeedge-version=1.2.1  --kube-config=/root/.kube/config
+keadm init --kubeedge-version=1.3.1  --kube-config=/root/.kube/config
 ```
 
 输出
 ```shell
 Kubernetes version verification passed, KubeEdge installation will start...
-Expected or Default KubeEdge version 1.2.1 is already downloaded
+Expected or Default KubeEdge version 1.3.1 is already downloaded
 ...
 KubeEdge cloudcore is running, For logs visit:  /var/log/kubeedge/cloudcore.log
 CloudCore started
@@ -120,7 +120,7 @@ systemctl restart docker
 3. 加入Kubeedeg集群
 
 ```shell
-keadm join --cloudcore-ipport=172.17.0.C:10000 --edgenode-name=node01 --kubeedge-version=1.2.1
+keadm join --cloudcore-ipport=172.17.0.C:10000 --edgenode-name=node01 --kubeedge-version=1.3.1
 ```
 
 输出
@@ -152,7 +152,7 @@ kubectl get nodes
 ```shell
 NAME           STATUS   ROLES    AGE    VERSION
 controlplane   Ready    master   140m   v1.14.0
-node01         Ready    edge     57s    v1.17.1-kubeedge-v1.2.1
+node01         Ready    edge     57s    v1.17.1-kubeedge-v1.3.1
 ```
 
 ### 5. Cloud 部署kubeedge-web-app
@@ -268,7 +268,7 @@ kubectl create -f kubeedge-web-app.yaml
 $ kubectl get nodes
 NAME           STATUS   ROLES    AGE    VERSION
 controlplane   Ready    master   163m   v1.14.0
-node01         Ready    edge     31m    v1.17.1-kubeedge-v1.2.1
+node01         Ready    edge     31m    v1.17.1-kubeedge-v1.3.1
 
 $ kubectl get crds
 NAME                                           CREATED AT
