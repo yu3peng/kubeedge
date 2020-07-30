@@ -113,7 +113,7 @@ systemctl restart docker
 3. 加入Kubeedeg集群
 
 ```shell
-keadm join --cloudcore-ipport=172.17.0.C:10000 --edgenode-name=test1 --kubeedge-version=1.2.1
+keadm join --cloudcore-ipport=172.17.0.C:10000 --edgenode-name=node01 --kubeedge-version=1.2.1
 ```
 
 输出
@@ -145,7 +145,7 @@ kubectl get nodes
 ```shell
 NAME           STATUS   ROLES    AGE    VERSION
 controlplane   Ready    master   140m   v1.14.0
-test1          Ready    edge     57s    v1.17.1-kubeedge-v1.2.1
+node01         Ready    edge     57s    v1.17.1-kubeedge-v1.2.1
 ```
 
 ### 5. Cloud 部署kubeedge-web-app
@@ -191,7 +191,7 @@ spec:
       - key: ''
         operator: In
         values:
-        - test1
+        - node01
 EOF
 
 # 修改kubeedge-web-app.yaml文件
