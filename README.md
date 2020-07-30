@@ -1,3 +1,10 @@
+MacOS(主机) -- Kubeedge Cloud
+            | -- Ubuntu18.04 IP:172.17.0.C 
+            | -- kindest/node:v1.17.2 
+            | -- kubeedge-web-app:v2.7
+           -- Kubeedge Edge
+            | -- Ubuntu18.04 IP: 172.17.0.E 
+
 ### 1. 登录免费 Kubernetes 资源
 
 登录以下网址
@@ -243,6 +250,9 @@ EOF
 
 # 部署资源文件
 kubectl create -f /root/fabric8-rbac.yaml
+
+# 允许master节点部署pod
+kubectl taint nodes --all node-role.kubernetes.io/master-
 
 # 部署
 cd $GOPATH/src/github.com/kubeedge/examples
