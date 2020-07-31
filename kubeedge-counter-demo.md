@@ -34,7 +34,7 @@ ifconfig
 1. 下载Kubeedge源码
 
 ```shell
-git clone https://github.com/kubeedge/kubeedge $GOPATH/src/github.com/kubeedge/kubeedge
+git clone https://github.com/yu3peng/kubeedge $GOPATH/src/github.com/kubeedge/kubeedge
 ```
 
 2. 编译Keadm
