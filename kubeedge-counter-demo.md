@@ -2,11 +2,13 @@
 
 | -- Ubuntu18.04 IP:172.17.0.C 
 	    	    
-| -- kubeedge-web-app:v2.7
+| -- web-controller-app
 	    
 -- Kubeedge Edge
 	   
 | -- Ubuntu18.04 IP: 172.17.0.E 
+
+| -- pi-counter-app
 
 ### 1. 登录免费 Kubernetes 资源
 
