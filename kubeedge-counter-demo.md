@@ -191,4 +191,4 @@ kubectl apply -f kubeedge-pi-counter-app.yaml
 
 ### 参考资料
 1. [Kubeedge安装,配置,HelloWorld](https://github.com/JingruiLea/blogs/blob/master/%E5%AE%89%E8%A3%85kubeedge.md)
-
+2. [KubeEdge v1.3部署指南！](https://kubeedge.io/zh/blog/kubeedge-deployment-manual/)
